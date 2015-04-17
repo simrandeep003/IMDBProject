@@ -23,6 +23,7 @@ class MovieSerializer(serializers.ModelSerializer):
     fields = ('id', 'name', 'imdb_score', 'popularity', 'director', 'genres')
     read_only_fields = ('id',)
 
+#Function for adding only new data.
   def create(self, validated_data):
     director_data = validated_data.pop('director')
     genres_data = validated_data.pop('genres')
@@ -42,7 +43,7 @@ class MovieSerializer(serializers.ModelSerializer):
     return movie
 
 
-
+#Function for updating movie detail
   def update(self, instance, validated_data):
     instance.name = validated_data.get('name','instance.name')
     instance.imdb_score = validated_data.get('imdb_score','instance.imdb_score')

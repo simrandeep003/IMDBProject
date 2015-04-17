@@ -13,7 +13,7 @@ class MovieList(APIView):
   """
   List all movies or create a new movie
   """
-  permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )
+  permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )  #Checking for admin login
   def get(self, request, format=None):
     print request.user.is_superuser
     print request.user.is_authenticated()
@@ -32,7 +32,7 @@ class MovieDetail(APIView):
   """
   Retrive, update or delete a snippet instance
   """
-  permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )
+  permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )   #Checking for admin login
   def get_object(self, pk):
     try:
       return Movie.objects.get(pk=pk)
@@ -64,8 +64,12 @@ class MovieSearch(APIView):
   """
   def post(self, request, format=None):
     search_term = request.data.pop('query')
-    #movies = Movie.objects.filter(Q(name__icontains=search_term) | Q(director__name__icontains=search_term))[:10]
-    movies = Movie.objects.filter(Q(name__icontains=search_term) | Q(director__name__icontains=search_term) |
-                                   Q(genres__name__icontains = search_term))[:10]
-    serializer = MovieSerializer(movies, many=True)
+
+    movie_list = Movie.objects.filter(name__icontains=search_term) #filtering search request on movie name
+    director_list = Movie.objects.filter(director__name__icontains=search_term) #filtering search request on director name
+    genre_list = Movie.objects.filter(genres__name__icontains=search_term) #filtering search request on genre name
+    final_list = movie_list | director_list | genre_list #appending all the results
+    final_list = final_list.distinct();
+    
+    serializer = MovieSerializer(final_list, many=True)
     return Response(serializer.data)
