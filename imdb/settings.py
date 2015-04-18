@@ -75,17 +75,30 @@ WSGI_APPLICATION = 'imdb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-#Database setting
+
+# heroku settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'imdb_test',
-        'HOST' : 'localhost',
+        'NAME': 'heroku_61b8d0fc2bfb5f8',
+        'HOST' : 'us-cdbr-iron-east-02.cleardb.net',
         'PORT' : 3306,
-        'USER' : 'user',
-        'PASSWORD' : 'user123'
+        'USER' : 'bb385de2bd9cfd',
+        'PASSWORD' : '93597f34',
     }
 }
+
+#Database setting
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'imdb_test',
+#         'HOST' : 'localhost',
+#         'PORT' : 3306,
+#         'USER' : 'user',
+#         'PASSWORD' : 'user123'
+#     }
+# }
 
 
 # Internationalization
