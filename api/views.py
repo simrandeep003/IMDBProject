@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from django.db.models import Q
 from api.permissions import IsAuthenticatedAndIsAdminOrReadOnly
 
 
@@ -15,8 +14,6 @@ class MovieList(APIView):
   """
   permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )  #Checking for admin login
   def get(self, request, format=None):
-    print request.user.is_superuser
-    print request.user.is_authenticated()
     movies = Movie.objects.all()
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
@@ -30,7 +27,7 @@ class MovieList(APIView):
 
 class MovieDetail(APIView):
   """
-  Retrive, update or delete a snippet instance
+  Retrive, update or delete a movie instance
   """
   permission_classes = (IsAuthenticatedAndIsAdminOrReadOnly, )   #Checking for admin login
   def get_object(self, pk):
